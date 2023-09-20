@@ -10,16 +10,16 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 //
 // https://docs.clerk.dev/frontend/react/signedin-and-signedout
 const Header = () => (
-  <header className={styles.header}>
-    <div className={styles.left}>
-      <Link href="/" className={styles.logo}>
-        <Image src="/logo.svg" width="32" height="32" alt="Logo" />
-        <span className={styles.appName}>Your application</span>
+  <header className="w-full flex justify-between p-8">
+    <div className="">
+      <Link href="/" className="flex items-center justify-center gap-2">
+        <Image src="/propcheck-logo-icon2.svg" width="32" height="32" alt="Logo" />
+        <span className="font-bold text-2xl">Propcheck</span>
       </Link>
     </div>
-    <div className={styles.right}>
+    <div className="">
       <SignedOut>
-        <Link href="/sign-in">Sign in</Link>
+        <Link className="rounded-lg border border-slate-400 p-2" href="/sign-in">Iniciar sesión</Link>
       </SignedOut>
       <SignedIn>
         <UserButton

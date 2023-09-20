@@ -1,45 +1,60 @@
-import styles from "/styles/Shared.module.css";
+// import styles from "/styles/Shared.module.css";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 
-const ClerkFeatures = () => (
-  <Link href="/user" className={styles.cardContent}>
-    <img alt="Explore Clerk components" src="/icons/layout.svg" />
+const classLinks = "flex gap-4 p-2 rounded-lg border border-slate-200 justify-between items-center";
+const classContainerLinks = "w-full";
+
+const UserPageLink = () => (
+  <Link href="/user" className={classLinks}>
+    <img alt="Përfil de usuario" src="/icons/user-square-rounded.svg" />
     <div>
-      <h3>Explore features provided by Clerk</h3>
-      <p>Interact with the user button, user profile, and more to preview what your users will see</p>
+      <h3>Pefil de usuario</h3>
+      <p>Completa tu datos personales</p>
     </div>
-    <div className={styles.arrow}>
+    <div className="">
       <img src="/icons/arrow-right.svg" />
     </div>
   </Link>
 );
 
-const SSRDemoLink = () => (
-  <Link href="/ssr-demo" className={styles.cardContent}>
-    <img alt="SSR demo" src="/icons/sparkles.svg" />
+const AddPropsLink = () => (
+  <Link href="/list" className={classLinks}>
+    <img alt="Agregar propiedades" src="/icons/home-plus.svg" />
     <div>
-      <h3>Visit the SSR demo page</h3>
+      <h3>Agregar propiedades</h3>
+      <p>Ingresa los datos de tus propiedades</p>
+    </div>
+    <div className="">
+      <img src="/icons/arrow-right.svg" />
+    </div>
+  </Link>
+);
+
+const DashboardLink = () => (
+  <Link href="/dashboard" className={classLinks} >
+    <img alt="Tablero" src="/icons/chart-infographic.svg" />
+    <div>
+      <h3>Tablero</h3>
       <p>
-        See how Clerk hydrates the auth state during SSR and CSR, enabling server-side generation even for authenticated
-        pages
+        Administra la información de tus propiedades
       </p>
     </div>
-    <div className={styles.arrow}>
+    <div>
       <img src="/icons/arrow-right.svg" />
     </div>
   </Link>
 );
 
 const SignupLink = () => (
-  <Link href="/sign-up" className={styles.cardContent}>
+  <Link href="/sign-up" className={classLinks}>
     <img alt="Sign up" src="/icons/user-plus.svg" />
     <div>
-      <h3>Sign up for an account</h3>
-      <p>Sign up and sign in to explore all the features provided by Clerk out-of-the-box</p>
+      <h3>Inicar sesión de usuario</h3>
+      <p>Registrate e ingresa la información de tus propiedades</p>
     </div>
-    <div className={styles.arrow}>
+    <div className="">
       <img src="/icons/arrow-right.svg" />
     </div>
   </Link>
@@ -65,140 +80,69 @@ export default function handler(req, res) {
 //
 // https://clerk.dev/docs/component-reference/signed-in
 const Main = () => (
-  <main className={styles.main}>
-    <h1 className={styles.title}>Welcome to your new app</h1>
+  <main className="w-full flex flex-col justify-center items-center text-center">
+
+    <h1 className="text-4xl bold">Propcheck</h1>
+
+    <h2 className="text-lg italic">Propiedades siempre al día</h2>
     <SignedIn>
-      <p className={styles.description}>You have successfully signed in</p>
+      <p className="">Has iniciado sesión correctamente</p>
     </SignedIn>
     <SignedOut>
-      <p className={styles.description}>Sign up for an account to get started</p>
+      <p className="">Inicia sesión para comenzar</p>
     </SignedOut>
 
-    <div className={styles.cards}>
+    <div className="max-w-xl flex flex-col items-center gap-2 p-2">
       <SignedIn>
-        <div className={styles.card}>
-          <SSRDemoLink />
+        <div className={classContainerLinks}>
+          <DashboardLink/>
         </div>
-        <div className={styles.card}>
-          <ClerkFeatures />
+        <div className={classContainerLinks}>
+          <AddPropsLink />
         </div>
+        <div className={classContainerLinks}>
+          <UserPageLink />
+        </div>
+
       </SignedIn>
       <SignedOut>
-        <div className={styles.card}>
+        <div className="">
           <SignupLink />
         </div>
       </SignedOut>
-
-      <div className={styles.card}>
-        <Link
-          href="https://dashboard.clerk.dev/last-active?utm_source=github&utm_medium=starter_repos&utm_campaign=nextjs_starter"
-          target="_blank"
-          rel="noopener"
-          className={styles.cardContent}
-        >
-          <img src="/icons/settings.svg" />
-          <div>
-            <h3>Configure settings for your app</h3>
-            <p>Visit Clerk to manage instances and configure settings for user management, theme, and more</p>
-          </div>
-          <div className={styles.arrow}>
-            <img src="/icons/arrow-right.svg" />
-          </div>
-        </Link>
-      </div>
     </div>
 
-    <SignedIn>
-      <APIRequest />
-    </SignedIn>
-
-    <div className={styles.links}>
+    <div className="">
       <Link
-        href="https://clerk.dev/docs?utm_source=github&utm_medium=starter_repos&utm_campaign=nextjs_starter"
+        href="#"
         target="_blank"
         rel="noopener"
-        className={styles.link}
+        className=""
       >
-        <span className={styles.linkText}>Read Clerk documentation</span>
+        <span className="">Documentación</span>
       </Link>
-      <Link href="https://nextjs.org/docs" target="_blank" rel="noopener" className={styles.link}>
-        <span className={styles.linkText}>Read NextJS documentation</span>
+      <Link href="#" target="_blank" rel="noopener" className="">
+        <span className="">Contacto</span>
       </Link>
     </div>
   </main>
 );
 
-const APIRequest = () => {
-  React.useEffect(() => {
-    if (window.Prism) {
-      window.Prism.highlightAll();
-    }
-  });
-  const [response, setResponse] = React.useState("// Click above to run the request");
-  const makeRequest = async () => {
-    setResponse("// Loading...");
-
-    try {
-      const res = await fetch("/api/getAuthenticatedUserId");
-      const body = await res.json();
-      setResponse(JSON.stringify(body, null, "  "));
-    } catch (e) {
-      setResponse("// There was an error with the request. Please contact support@clerk.dev");
-    }
-  };
-  return (
-    <div className={styles.backend}>
-      <h2>API request example</h2>
-      <div className={styles.card}>
-        <button target="_blank" rel="noopener" className={styles.cardContent} onClick={() => makeRequest()}>
-          <img src="/icons/server.svg" />
-          <div>
-            <h3>fetch('/api/getAuthenticatedUserId')</h3>
-            <p>Retrieve the user ID of the signed in user, or null if there is no user</p>
-          </div>
-          <div className={styles.arrow}>
-            <img src="/icons/download.svg" />
-          </div>
-        </button>
-      </div>
-      <h4>
-        Response
-        <em>
-          <SignedIn>You are signed in, so the request will return your user ID</SignedIn>
-          <SignedOut>You are signed out, so the request will return null</SignedOut>
-        </em>
-      </h4>
-      <pre>
-        <code className="language-js">{response}</code>
-      </pre>
-      <h4>pages/api/getAuthenticatedUserId.js</h4>
-      <pre>
-        <code className="language-js">{apiSample}</code>
-      </pre>
-    </div>
-  );
-};
-
 // Footer component
 const Footer = () => (
-  <footer className={styles.footer}>
-    Powered by{" "}
+  <footer className="flex w-full justify-center">
     <a
-      href="https://clerk.dev?utm_source=github&utm_medium=starter_repos&utm_campaign=nextjs_starter"
+      href="https://propcheck.cl"
       target="_blank"
       rel="noopener"
     >
-      <img src="/clerk.svg" alt="Clerk" className={styles.logo} />
-    </a>
-    +
-    <a href="https://nextjs.org/" target="_blank" rel="noopener">
-      <img src="/nextjs.svg" alt="Next.js" className={styles.logo} />
+      Propcheck
     </a>
   </footer>
 );
 
 const Home = () => (
-  <div className={styles.container}>
+  <div className="">
     <Main />
     <Footer />
   </div>

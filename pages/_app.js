@@ -1,5 +1,6 @@
 import "/styles/globals.css";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
+// import 'tailwindcss/tailwind.css'
 
 import Head from "next/head";
 
@@ -11,7 +12,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
       <Head>
-        <title>Clerk + Next.js Starter</title>
+        <title>Propcheck - Administración de propiedades ✅</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link href="https://cdn.jsdelivr.net/npm/prismjs@1/themes/prism.css" rel="stylesheet" />
